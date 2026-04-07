@@ -1,43 +1,53 @@
-import java.util.Scanner;
+import java.util.*;
 
-class ProTwenty {
+public class protwenty {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int r1 = sc.nextInt();
-        int c1 = sc.nextInt();
-        int r2 = sc.nextInt();
-        int c2 = sc.nextInt();
+        int n = sc.nextInt();
+        int[] completion = new int[n];
 
-        int[][] a = new int[r1][c1];
-        int[][] b = new int[r2][c2];
-        int[][] res = new int[r1][c2];
+        for (int i = 0; i < n; i++) {
+            completion[i] = sc.nextInt();
+        }
 
-        for(int i = 0; i < r1; i++) {
-            for(int j = 0; j < c1; j++) {
-                a[i][j] = sc.nextInt();
+        int total = 0;
+        int max = completion[0];
+        int min = completion[0];
+        int maxIndex = 1;
+        int minIndex = 1;
+
+        for (int i = 0; i < n; i++) {
+            total += completion[i];
+
+            if (completion[i] > max) {
+                max = completion[i];
+                maxIndex = i + 1;
+            }
+
+            if (completion[i] < min) {
+                min = completion[i];
+                minIndex = i + 1;
             }
         }
 
-        for(int i = 0; i < r2; i++) {
-            for(int j = 0; j < c2; j++) {
-                b[i][j] = sc.nextInt();
+        double average = (double) total / n;
+
+        int atRisk = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (completion[i] < 60) {
+                atRisk++;
             }
         }
 
-        for(int i = 0; i < r1; i++) {
-            for(int j = 0; j < c2; j++) {
-                for(int k = 0; k < c1; k++) {
-                    res[i][j] += a[i][k] * b[k][j];
-                }
-            }
-        }
+        double successRate = ((double)(n - atRisk) / n) * 100;
 
-        for(int i = 0; i < r1; i++) {
-            for(int j = 0; j < c2; j++) {
-                System.out.print(res[i][j] + " ");
-            }
-            System.out.println();
-        }
+        System.out.println("Total Students: " + n);
+        System.out.printf("Average Completion: %.2f%%\n", average);
+        System.out.println("Highest Completion: " + max + "% (Student " + maxIndex + ")");
+        System.out.println("Lowest Completion: " + min + "% (Student " + minIndex + ")");
+        System.out.println("At-Risk Students (<60%): " + atRisk);
+        System.out.printf("Success Rate: %.2f%%\n", successRate);
     }
 }
