@@ -1,27 +1,34 @@
-import java.util.Scanner;
+import java.util.*;
 
-class ProFive {
+public class profive {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int[][] arr = new int[3][3];
+        int n = sc.nextInt();
+        double[] price = new double[n];
 
-        System.out.println("Enter elements:");
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                arr[i][j] = sc.nextInt();
-            }
+        for(int i = 0; i < n; i++) {
+            price[i] = sc.nextDouble();
         }
 
-        System.out.println("Sum of each column:");
+        double min = price[0];
+        double max = price[0];
 
-        for (int j = 0; j < 3; j++) {
-            int sum = 0;
-            for (int i = 0; i < 3; i++) {
-                sum = sum + arr[i][j];
+        for(int i = 1; i < n; i++) {
+            if(price[i] < min) {
+                min = price[i];
             }
-            System.out.println("Column " + j + " sum = " + sum);
+            if(price[i] > max) {
+                max = price[i];
+            }
         }
+        double difference = max - min;
+        double savings = (difference / max) * 100;
+        System.out.println("Number of Sellers: " + n);
+        System.out.printf("Lowest Price: $%.2f\n", min);
+        System.out.printf("Highest Price: $%.2f\n", max);
+        System.out.printf("Price Difference: $%.2f\n", difference);
+        System.out.printf("Savings: %.2f%%\n", savings);
+        sc.close();
     }
 }
