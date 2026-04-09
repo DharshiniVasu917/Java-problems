@@ -1,26 +1,47 @@
-class proseventeen {
+import java.util.*;
+
+public class proseventeen {
     public static void main(String[] args) {
-        int[][] a = {
-            {1,3,5},
-            {7,9,11},
-            {13,15,17}
-        };
+        Scanner sc = new Scanner(System.in);
 
-        int key = 9;
-        int n = a.length, m = a[0].length;
-        int low = 0, high = n*m-1;
+        int n = sc.nextInt();
+        long[] volume = new long[n];
 
-        while(low<=high){
-            int mid = (low+high)/2;
-            int val = a[mid/m][mid%m];
-
-            if(val==key){
-                System.out.println("Found");
-                return;
-            }
-            else if(val<key) low = mid+1;
-            else high = mid-1;
+        for (int i = 0; i < n; i++) {
+            volume[i] = sc.nextLong();
         }
-        System.out.println("Not Found");
+
+        long total = 0;
+        long max = volume[0];
+        int peakDay = 1;
+
+        for (int i = 0; i < n; i++) {
+            total += volume[i];
+
+            if (volume[i] > max) {
+                max = volume[i];
+                peakDay = i + 1;
+            }
+        }
+
+        long average = total / n;
+        double threshold = average * 1.5;
+
+        int count = 0;
+        ArrayList<Integer> breakoutDays = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            if (volume[i] > threshold) {
+                count++;
+                breakoutDays.add(i + 1);
+            }
+        }
+
+        System.out.println("Trading Days Analyzed: " + n);
+        System.out.println("Total Volume: " + total);
+        System.out.println("Average Daily Volume: " + average);
+        System.out.println("Peak Volume Day: Day " + peakDay + " (" + max + ")");
+        System.out.println("High Volume Days (>150% avg): " + count);
+        System.out.println("Breakout Signal Days: " + breakoutDays);
     }
 }
